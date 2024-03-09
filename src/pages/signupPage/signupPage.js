@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './style.css';
 import {
   Avatar, TextField, Button, FormControl, InputLabel,
   MenuItem, Select, IconButton, InputAdornment, Grid, Checkbox,
@@ -7,8 +8,10 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const SignUpForm = () => {
+  let checkboxTick = false;
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
@@ -35,8 +38,10 @@ const SignUpForm = () => {
     setValues({ ...values, receiveUpdates: event.target.checked });
     if (event.target.checked) {
       setOpenModal(true);
+      checkboxTick = true;
     } else {
       setOpenModal(false);
+      checkboxTick = false;
     }
   };
 
@@ -47,6 +52,33 @@ const SignUpForm = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  const handleSubmit = () => {
+    if (checkboxTick) {
+      console.log(values);
+      setValues({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        showPassword: false,
+        organizationName: '',
+        organizationType: '',
+        region: '',
+        country: '',
+        city: '',
+        state: '',
+        zipcode: '',
+        receiveUpdates: false,
+      });
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Terms And Conditions...",
+        text: "Please agree to our Terms And Conditions",
+      });
+    }
+  }
 
   return (
     <div className='main-container'>
@@ -151,24 +183,24 @@ const SignUpForm = () => {
                       value={values.region}
                       onChange={handleChange('region')}
                     >
-                      <MenuItem value="Region1">Region 1</MenuItem>
-                      <MenuItem value="Region2">Region 2</MenuItem>
-                      <MenuItem value="Region3">Region 3</MenuItem>
+                      <MenuItem value="Region1">Asia</MenuItem>
+                      <MenuItem value="Region2">Africa</MenuItem>
+                      <MenuItem value="Region3">North America</MenuItem>
+                      <MenuItem value="Region2">South America</MenuItem>
+                      <MenuItem value="Region2">Europe</MenuItem>
+                      <MenuItem value="Region2">Antarctica</MenuItem>
+                      <MenuItem value="Region2">Australia</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth margin="normal">
-                    <InputLabel>Country</InputLabel>
-                    <Select
-                      value={values.country}
-                      onChange={handleChange('country')}
-                    >
-                      <MenuItem value="Country1">Country 1</MenuItem>
-                      <MenuItem value="Country2">Country 2</MenuItem>
-                      <MenuItem value="Country3">Country 3</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <TextField
+                    label="Country"
+                    value={values.country}
+                    onChange={handleChange('country')}
+                    margin="normal"
+                    fullWidth
+                  />
                 </Grid>
               </Grid>
 
@@ -196,11 +228,11 @@ const SignUpForm = () => {
                 control={<Checkbox checked={values.receiveUpdates} onChange={handleCheckboxChange} />}
                 label="I agree to these terms and conditions          "
               />
-              <Button variant="contained" color="primary" fullWidth>
+              <Button variant="contained" color="primary" fullWidth onClick={handleSubmit}>
                 Sign Up
               </Button>
               <Typography variant="body2" align="center" gutterBottom>
-                Already have an account? <Link href="#">Sign in</Link>
+                Already have an account? <Link to={"/"}>Sign in</Link>
               </Typography>
             </Card>
 
