@@ -47,6 +47,15 @@ const Login = () => {
         handleCloseForgotPasswordModal();
     };
 
+    const HandleSubmit = (e) => {
+        e.preventDefault()
+        const user = {
+            email,
+            password,
+        }
+        console.log(user);
+    }
+
     return (<>
         <div className='main-container'>
             <div className='content'>
@@ -120,6 +129,7 @@ const Login = () => {
                                         fullWidth
                                         variant="contained"
                                         sx={{ mt: 3, mb: 2 }}
+                                        onClick={HandleSubmit}
                                     >
                                         Sign In
                                     </Button>
