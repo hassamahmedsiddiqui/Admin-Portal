@@ -1,5 +1,7 @@
 import './style.css';
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import UserContext from "../../Context/User/userContext.js";
+
 import {
     Avatar, Button, CssBaseline, TextField,
     FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container,
@@ -9,6 +11,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
+
+const severLink = 'http://localhost:8000/api';
+
+
 const theme = createTheme({
     palette: {
         primary: {
@@ -26,12 +35,39 @@ const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [forgotPasswordModalOpen, setForgotPasswordModalOpen] = useState(false);
 
+    //check wheter user is already login or not;
+    const { user, setUser } = useContext(UserContext);
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (user) {
+            navigate("/home")
+        }
+    }, [user, navigate]);
+
     const handlePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
-    const handleLogin = () => {
+    const handleLogin = (e) => {
         // Your login logic here
+        e.preventDefault()
+        axios.post(`${severLink}/auth/login`, {
+            email,
+            password,
+        })
+            .then((res) => {
+                console.log(res.data.message);
+                console.log(res.data.user);
+                localStorage.setItem('token', res.data.token)
+            })
+            .catch((error) => {
+                console.log(error.response.data.message)
+                Swal.fire({
+                    icon: "error",
+                    title: "Terms And Conditions...",
+                    text: error.response.data.message,
+                });
+            });
     };
 
     const handleForgotPassword = () => {
@@ -46,15 +82,6 @@ const Login = () => {
         // Your logic to send recovery email
         handleCloseForgotPasswordModal();
     };
-
-    const HandleSubmit = (e) => {
-        e.preventDefault()
-        const user = {
-            email,
-            password,
-        }
-        console.log(user);
-    }
 
     return (<>
         <div className='main-container'>
@@ -129,7 +156,7 @@ const Login = () => {
                                         fullWidth
                                         variant="contained"
                                         sx={{ mt: 3, mb: 2 }}
-                                        onClick={HandleSubmit}
+                                    // onClick={HandleSubmit}
                                     >
                                         Sign In
                                     </Button>

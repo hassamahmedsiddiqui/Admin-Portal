@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import UserContext from "../../Context/User/userContext.js";
 import './style.css';
 import {
   Avatar, TextField, Button, FormControl, InputLabel,
@@ -9,9 +10,21 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const severLink = 'http://localhost:8000/api';
 
 const SignUpForm = () => {
-  let checkboxTick = false;
+  //check wheter user is already login or not;
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (user) {
+      navigate("/home")
+    }
+  }, [user, navigate]);
+
   const [values, setValues] = useState({
     firstName: '',
     lastName: '',
@@ -38,10 +51,8 @@ const SignUpForm = () => {
     setValues({ ...values, receiveUpdates: event.target.checked });
     if (event.target.checked) {
       setOpenModal(true);
-      checkboxTick = true;
     } else {
       setOpenModal(false);
-      checkboxTick = false;
     }
   };
 
@@ -54,8 +65,49 @@ const SignUpForm = () => {
   };
 
   const handleSubmit = () => {
-    if (checkboxTick) {
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      organizationName,
+      organizationType,
+      region,
+      country,
+      city,
+      state,
+      receiveUpdates
+    } = values;
+    if (receiveUpdates) {
       console.log(values);
+
+      axios.post(`${severLink}/auth/signin`, {
+        firstName,
+        lastName,
+        email,
+        password,
+        organizationName,
+        organizationType,
+        region,
+        country,
+        city,
+        state,
+        receiveUpdates
+      })
+        .then((res) => {
+          console.log(res.data.message);
+          console.log(res.data.user);
+          localStorage.setItem('token', res.data.token)
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          Swal.fire({
+            icon: "error",
+            title: "Terms And Conditions...",
+            text: error.response.data.message,
+          });
+        });
+
       setValues({
         firstName: '',
         lastName: '',
