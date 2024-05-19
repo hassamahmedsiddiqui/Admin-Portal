@@ -18,6 +18,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
+import ChartComponent from '../chart/chart'
 
 const drawerWidth = 240;
 
@@ -119,11 +120,9 @@ export default function MiniDrawer() {
           {/* <Typography style={{color:"#ffffff"}} variant="h5" noWrap component="div"> */}
            <div className='d-flex justify-content-between align-items-center'>
            <div>
-           <h3 className='m-3'>Research Mate</h3>
+           <h3 className='m-3'>Dashboard</h3>
            </div>
-           <div>
-           <h3 className='m-3'>Research Mate</h3>
-           </div>
+          
            </div>
           {/* </Typography> */}
         </Toolbar>
@@ -193,7 +192,8 @@ export default function MiniDrawer() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Typography paragraph>
+        <ChartComponent />
+        {/* <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
           tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
           enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
@@ -219,7 +219,7 @@ export default function MiniDrawer() {
           tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
           eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
           posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        </Typography> */}
       </Box>
     </Box>
   );

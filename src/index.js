@@ -4,13 +4,18 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import PieChart from '../src/pages/pieChart/pieChart'
+import ChartComponent from '../src/pages/chart/chart'
+import MiniDrawer from './pages/mat-drawer/matDrawer'
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    {/* <PieChart /> */}
+    <MiniDrawer />
+    {/* <App /> */}
   </React.StrictMode>
 );
 

@@ -19,11 +19,11 @@ const SignUpForm = () => {
   //check wheter user is already login or not;
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate()
-  useEffect(() => {
-    if (user) {
-      navigate("/home")
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/home")
+  //   }
+  // }, [user, navigate]);
 
   const [values, setValues] = useState({
     firstName: '',
